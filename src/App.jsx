@@ -44,24 +44,35 @@ function App() {
       };
     });
   };
+  const handleDeleteProj = () => {
+    setProjectState((prev) => {
+      return {
+        ...prev,
+        selectedProjectId: undefined,
+        project: projectState.project.filter(
+          (p) => p.id !== prev.selectedProjectId
+        ),
+      };
+    });
+  };
   console.log(projectState);
   const selectedProject = projectState.project.find(
     (project) => project.id === projectState.selectedProjectId
   );
-  let content = <SelectedProject project={selectedProject} />;
+  let content = <SelectedProject project={selectedProject} onDelete={handleDeleteProj}/>;
   if (projectState.selectedProjectId === null) {
     content = (
       <NewProject onAdd={handleAddProj} onCancel={handleCancelAddProj} />
     );
   } else if (projectState.selectedProjectId === undefined) {
-    content = <NoProjectSelected onStartAppProj={handleStartAddProj} />;
+    content = <NoProjectSelected onStartAddProj={handleStartAddProj} />;
   }
   return (
     <>
       <h1 className="my-8 text-center text-5xl font-bold">Hello World</h1>
       <main className="h-screen my-8 flex gap-8">
         <ProjectSidebar
-          onStartAddProj={handleStartAddProj}
+          onStartAddProject={handleStartAddProj}
           projects={projectState.project}
           onSelectProject={handleSelectProj}
         />
