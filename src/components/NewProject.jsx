@@ -10,16 +10,17 @@ export default function NewProject({ onAdd, onCancel }) {
   const handleSave = () => {
     const enteredTitle = title.current.value;
     const enteredDescription = description.current.value;
-    const enteredDuedate = dueDate.current.value;
+    let enteredDuedate = dueDate.current.value;
+    if (enteredDuedate.trim() === "") {
+      enteredDuedate = new Date().toISOString().split("T")[0];
+    }
     if (
       enteredTitle.trim() === "" ||
-      enteredDescription.trim() === "" ||
-      enteredDuedate.trim() === ""
+      enteredDescription.trim() === ""
     ) {
-        modal.current.open()
-        return;
+      modal.current.open();
+      return;
     }
-
     onAdd({
       title: enteredTitle,
       description: enteredDescription,
